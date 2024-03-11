@@ -13,12 +13,9 @@
 <div class="container">
     <div class="row mt-5">
         <div class="offset-4 col-4 bg-info border border-black rounded">
-            <c:forEach var="product" items="${sessionScope.list}">
-                <div>
-                    <h1><c:out value="${product.getName()}"/></h1>
-                    <h1><c:out value="${product.getDescription()}"/></h1>
-                </div>
-            </c:forEach>
+
+
+
         </div>
     </div>
 </div>

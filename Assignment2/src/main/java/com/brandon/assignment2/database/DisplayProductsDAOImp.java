@@ -2,10 +2,12 @@ package com.brandon.assignment2.database;
 
 import com.brandon.assignment2.dao.DisplayProductsDAO;
 import com.brandon.assignment2.model.Product;
+import com.brandon.assignment2.model.Review;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +18,11 @@ public class DisplayProductsDAOImp implements DisplayProductsDAO {
             "SELECT products.id, " +
                     "products.name, " +
                     "products.description, " +
-                    "stock.quantity, " +
+                    "stock.stock, " +
                     "stock.cost " +
                     "FROM products INNER JOIN stock ON products.id = stock.product_id";
+    private static final String SQL_SELECT_ALL_REVIEWS =
+            "SELECT product_id, comment, score FROM reviews where product_id = ?";
 
     private Connection jdbcConnection;
 
@@ -33,6 +37,7 @@ public class DisplayProductsDAOImp implements DisplayProductsDAO {
         try {
             conn = getConnection();
             preparedStatement = conn.prepareStatement(SQL_SELECT_ALL);
+
             rs = preparedStatement.executeQuery();
             while (rs.next()){
                 Product product = new Product(
@@ -45,9 +50,42 @@ public class DisplayProductsDAOImp implements DisplayProductsDAO {
                 products.add(product);
             }
         } catch (Exception exception) {
+            Product product = new Product(0, "Error", exception.getMessage(), 2, 4.0f);
+            products.add(product);
             System.out.println("Error: " + exception.getMessage());
         }
 
         return products;
+    }
+
+    @Override
+    public List<Review> selectAllReviews(int id) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        List<Review> reviews = new ArrayList<>();
+
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(SQL_SELECT_ALL_REVIEWS);
+            preparedStatement.setInt(1, id);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+                Review review = new Review(
+                        rs.getInt("product_id"),
+                        rs.getString("comment"),
+                        rs.getInt("score")
+                );
+                reviews.add(review);
+            }
+        } catch (Exception exception) {
+            Review review = new Review(0, "Error: " + exception.getMessage(), 5);
+            reviews.add(review);
+            System.out.println("Error: " + exception.getMessage());
+        }
+
+        return reviews;
     }
 }

@@ -1,19 +1,25 @@
 package com.brandon.assignment2.model;
 
-public class Reviews {
+public class Review {
     private int id;
     private int productId;
     private String comment;
     private int score;
 
-    public Reviews(int id, int productId, String comment, int score) {
+    public Review(int id, int productId, String comment, int score) {
         this.id = id;
         this.productId = productId;
         this.comment = comment;
         this.score = score;
     }
 
-    public Reviews() {
+    public Review(int productId, String comment, int score) {
+        this.productId = productId;
+        this.comment = comment;
+        this.score = score;
+    }
+
+    public Review() {
     }
 
     public int getId() {

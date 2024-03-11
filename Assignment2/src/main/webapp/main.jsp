@@ -9,13 +9,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Products</title>
 </head>
 <body>
-<c:forEach var="product" items="${sessionScope.list}">
+<c:forEach var="product" items="${sessionScope.products}">
     <div>
         <h1><c:out value="${product.getName()}"/></h1>
         <h1><c:out value="${product.getDescription()}"/></h1>
+        <h1><c:out value="${product.getStock()}"/></h1>
+        <h1><c:out value="${product.getCost()}"/></h1>
+        <form action="index.jsp" method="post"><button type="submit" name="id" value="<c:out value="${product.getId()}"/>">Reviews</button></form>
     </div>
 </c:forEach>
 </body>

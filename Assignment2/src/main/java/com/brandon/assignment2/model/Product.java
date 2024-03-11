@@ -1,5 +1,7 @@
 package com.brandon.assignment2.model;
 
+import java.util.List;
+
 public class Product {
     private int id;
     private String name;
