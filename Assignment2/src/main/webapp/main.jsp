@@ -12,8 +12,11 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>Worked!</h1>
-    <h1><c:out value="${requestScope.user.getfName()}"/></h1>
-    <h1><c:out value="${requestScope.user.getlName()}"/></h1>
+<c:forEach var="product" items="${sessionScope.list}">
+    <div>
+        <h1><c:out value="${product.getName()}"/></h1>
+        <h1><c:out value="${product.getDescription()}"/></h1>
+    </div>
+</c:forEach>
 </body>
 </html>

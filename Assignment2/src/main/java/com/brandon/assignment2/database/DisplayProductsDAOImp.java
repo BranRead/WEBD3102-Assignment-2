@@ -6,12 +6,19 @@ import com.brandon.assignment2.model.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.brandon.assignment2.database.MySQLConnection.getConnection;
 
 public class DisplayProductsDAOImp implements DisplayProductsDAO {
-    private static final String SQL_SELECT_ALL = "SELECT * FROM products";
+    private static final String SQL_SELECT_ALL =
+            "SELECT products.id, " +
+                    "products.name, " +
+                    "products.description, " +
+                    "stock.quantity, " +
+                    "stock.cost " +
+                    "FROM products INNER JOIN stock ON products.id = stock.product_id";
 
     private Connection jdbcConnection;
 
@@ -21,7 +28,7 @@ public class DisplayProductsDAOImp implements DisplayProductsDAO {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
 
-        List<Product> products = null;
+        List<Product> products = new ArrayList<>();
 
         try {
             conn = getConnection();
@@ -31,7 +38,9 @@ public class DisplayProductsDAOImp implements DisplayProductsDAO {
                 Product product = new Product(
                         rs.getInt("id"),
                         rs.getString("name"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getInt("stock"),
+                        rs.getFloat("cost")
                 );
                 products.add(product);
             }

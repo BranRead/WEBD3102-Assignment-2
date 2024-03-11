@@ -13,16 +13,12 @@
 <div class="container">
     <div class="row mt-5">
         <div class="offset-4 col-4 bg-info border border-black rounded">
-            <h1 class="text-center">Login Form</h1>
-            <form class="d-flex flex-column" action="login" method="POST">
-                <label for="username">Username</label>
-                <input class="form-control" id="username" type="text" name="username"/>
-
-                <label for="password">Password</label>
-                <input class="form-control" id="password" type="password" name="password"/>
-
-                <button class="btn btn-primary my-2" type="submit">Login</button>
-            </form>
+            <c:forEach var="product" items="${sessionScope.list}">
+                <div>
+                    <h1><c:out value="${product.getName()}"/></h1>
+                    <h1><c:out value="${product.getDescription()}"/></h1>
+                </div>
+            </c:forEach>
         </div>
     </div>
 </div>

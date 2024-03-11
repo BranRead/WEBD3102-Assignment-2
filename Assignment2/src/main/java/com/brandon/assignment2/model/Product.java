@@ -4,11 +4,15 @@ public class Product {
     private int id;
     private String name;
     private String description;
+    private int stock;
+    private float cost;
 
-    public Product(int id, String name, String description) {
+    public Product(int id, String name, String description, int stock, float cost) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.stock = stock;
+        this.cost = cost;
     }
 
     public Product() {
@@ -36,5 +40,21 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 }
