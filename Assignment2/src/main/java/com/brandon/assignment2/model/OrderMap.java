@@ -1,15 +1,15 @@
 package com.brandon.assignment2.model;
 
-public class order_map {
+public class OrderMap {
     private int id;
     private int userId;
 
-    public order_map(int id, int userId) {
+    public OrderMap(int id, int userId) {
         this.id = id;
         this.userId = userId;
     }
 
-    public order_map() {}
+    public OrderMap() {}
 
     public int getId() {
         return id;
