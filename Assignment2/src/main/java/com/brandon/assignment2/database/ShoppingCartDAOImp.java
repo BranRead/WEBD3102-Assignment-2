@@ -98,7 +98,8 @@ public class ShoppingCartDAOImp implements ShoppingCartDAO {
                          rs.getInt("stock.stock"),
                          rs.getFloat("stock.cost"),
                          rs.getInt("shopping_cart.id"),
-                         rs.getInt("shopping_cart.quantity")
+                         rs.getInt("shopping_cart.quantity"),
+                         id
                 );
                 shoppingCart.add(shoppingCartItem);
             }

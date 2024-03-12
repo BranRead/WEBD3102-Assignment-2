@@ -40,6 +40,7 @@ public class LoginController extends HttpServlet {
             request.setAttribute("user", user);
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            session.setAttribute("isLoggedIn", true);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/main.jsp");
             dispatcher.include(request, response);
             dispatcher.forward(request, response);

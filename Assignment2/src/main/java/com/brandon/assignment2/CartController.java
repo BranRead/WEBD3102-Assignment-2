@@ -5,79 +5,78 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.brandon.assignment2.database.ShoppingCartDAOImp;
 import com.brandon.assignment2.model.ShoppingCartItem;
+import com.brandon.assignment2.model.User;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "CartControllerServlet", value = "/CartController-servlet")
+@WebServlet(name = "CartControllerServlet", value = "/cart")
 public class CartController extends HttpServlet {
-    private String message;
 
+    ShoppingCartDAOImp shoppingCartDAOImp = new ShoppingCartDAOImp();
     public void init() {
-        message = "Hello World!";
+
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
 
-        // Hello
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        out.println("</body></html>");
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getSession().getAttribute("user") != null) {
+            try {
+
+                addItem(request, response);
+
+
+//                if(request.getParameter("delete") != null) {
+//                    delete(request, response);
+//                }
+//
+//                if(request.getParameter("change") != null) {
+//                    change(request, response);
+//                }
+            } catch (SQLException | ServletException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+
+    private void addItem(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
         try {
-            if(request.getParameter("add") != null) {
-                add(request, response);
-            }
 
-            if(request.getParameter("delete") != null) {
-                delete(request, response);
-            }
+            User user = (User) request.getSession().getAttribute("user");
 
-            if(request.getParameter("change") != null) {
-                change(request, response);
-            }
-        } catch (SQLException e) {
+            shoppingCartDAOImp.add(user.getId(), Integer.parseInt(request.getParameter("productId")), Integer.parseInt(request.getParameter("quantity")));
+//            shoppingCartDAOImp.add(1, 1, 15);
+            request.setAttribute("id", user.getId());
+            request.setAttribute("productId", Integer.parseInt(request.getParameter("productId")));
+            request.setAttribute("quantity", Integer.parseInt(request.getParameter("quantity")));
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/main.jsp");
+            dispatcher.include(request, response);
+            dispatcher.forward(request, response);
+            response.sendRedirect("/main.jsp");
+        } catch (ServletException | IOException | SQLException e) {
+            shoppingCartDAOImp.add(0, 0, 0);
             throw new RuntimeException(e);
         }
     }
 
-    public void destroy() {
-    }
-
-    private void add(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-        if (request.getSession().getAttribute("userID") == null) {
-            if (request.getSession().getAttribute("shoppingCart") == null) {
-                List<ShoppingCartItem> shoppingCart = new ArrayList<>();
-                request.getSession().setAttribute("shoppingCart", shoppingCart);
-            } else {
-
-            }
-        } else {
-
+//    private void delete(HttpServletRequest request, HttpServletResponse response)
+//            throws SQLException, IOException, ServletException {
+//
+//    }
+//
+//    private void change(HttpServletRequest request, HttpServletResponse response)
+//            throws SQLException, IOException, ServletException {
+//
+//    }
+        public void destroy(){
         }
     }
-
-    private void delete(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-        if (request.getSession().getAttribute("userID") == null) {
-
-        } else {
-
-        }
-    }
-
-    private void change(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-        if (request.getSession().getAttribute("userID") == null) {
-
-        } else {
-
-        }
-    }
-}
