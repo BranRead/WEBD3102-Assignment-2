@@ -19,6 +19,11 @@
         <h1><c:out value="${product.getStock()}"/></h1>
         <h1><c:out value="${product.getCost()}"/></h1>
         <form action="index.jsp" method="post"><button type="submit" name="id" value="<c:out value="${product.getId()}"/>">Reviews</button></form>
+        <form action="cart.jsp" method="post">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1">
+            <button type="submit" name="id" value="<c:out value="${product.getId()}"/>">Add to Cart</button>
+        </form>
     </div>
 </c:forEach>
 </body>
