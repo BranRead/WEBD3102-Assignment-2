@@ -27,7 +27,7 @@ public class ShoppingCartDAOImp implements ShoppingCartDAO {
                     "products.name, " +
                     "products.description, " +
                     "stock.cost, " +
-                    "stock.stock, " +
+                    "stock.stock " +
                     "FROM shopping_cart " +
                     "INNER JOIN products ON shopping_cart.product_id = products.id " +
                     "INNER JOIN stock ON shopping_cart.product_id = stock.product_id " +
@@ -104,6 +104,17 @@ public class ShoppingCartDAOImp implements ShoppingCartDAO {
                 shoppingCart.add(shoppingCartItem);
             }
         } catch (Exception exception) {
+            ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
+                    0,
+                    exception.getMessage(),
+                    exception.getMessage(),
+                    0,
+                    2.0f,
+                    0,
+                    0,
+                    0
+            );
+            shoppingCart.add(shoppingCartItem);
             System.out.println("Error: " + exception.getMessage());
         }
         return shoppingCart;
