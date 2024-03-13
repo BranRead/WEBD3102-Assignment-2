@@ -8,9 +8,7 @@ import java.util.List;
 import com.brandon.assignment2.database.AddressDAOImp;
 import com.brandon.assignment2.database.OrderDAOImp;
 import com.brandon.assignment2.database.ShoppingCartDAOImp;
-import com.brandon.assignment2.model.Address;
-import com.brandon.assignment2.model.ShoppingCartItem;
-import com.brandon.assignment2.model.User;
+import com.brandon.assignment2.model.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -27,7 +25,17 @@ public class OrderController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        try {
+            User user = (User) request.getSession().getAttribute("user");
+            List<Order> orders = orderDAOImp.selectOrders(user.getId());
+            request.getSession().setAttribute("orders", orders);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("view-order.jsp");
+            dispatcher.include(request, response);
+            dispatcher.forward(request, response);
+            response.sendRedirect("view-order.jsp");
+        } catch (ServletException | IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)

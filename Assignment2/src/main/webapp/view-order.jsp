@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%--
   Created by IntelliJ IDEA.
   User: Brandon
@@ -8,9 +9,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Your Orders</title>
 </head>
 <body>
-
+<c:forEach var="order" items="${sessionScope.orders}">
+    <div>
+        <h1><c:out value="${order.isShipped()}"/></h1>
+        <h1><c:out value="${order.getTrackingNumber()}"/></h1>
+    </div>
+</c:forEach>
 </body>
 </html>

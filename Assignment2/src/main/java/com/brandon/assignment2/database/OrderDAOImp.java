@@ -1,6 +1,7 @@
 package com.brandon.assignment2.database;
 
 import com.brandon.assignment2.dao.OrderDAO;
+import com.brandon.assignment2.model.Order;
 import com.brandon.assignment2.model.ShoppingCartItem;
 
 import javax.xml.transform.Result;
@@ -8,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.brandon.assignment2.database.MySQLConnection.getConnection;
@@ -61,5 +63,35 @@ public class OrderDAOImp implements OrderDAO {
         } catch (Exception exception) {
             System.out.println("Error: " + exception.getMessage());
         }
+    }
+
+    @Override
+    public List<Order> selectOrders(int userId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        List<Order> orders = new ArrayList<>();
+
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(SQL_SELECT_ALL_ORDERS);
+            preparedStatement.setInt(1, userId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                Order order = new Order();
+                if(rs.getByte("is_shipped") == 0){
+                    order.setShipped(false);
+                } else if (rs.getByte("is_shipped") == 1) {
+                    order.setShipped(true);
+                }
+                order.setTrackingNumber(rs.getString("tracking_number"));
+
+                orders.add(order);
+
+            }
+
+        } catch (Exception exception) {
+            System.out.println("Error: " + exception.getMessage());
+        }
+        return orders;
     }
 }
