@@ -38,19 +38,26 @@
 <h1>Address</h1>
 <c:choose>
     <c:when test="${sessionScope.addresses.size() > 0}">
-        <form>
+        <form action="order" method="post">
+            <%
+                int index = 0;
+            %>
             <c:forEach var="address" items="${sessionScope.addresses}">
-                <label for="address + ${address.getId()}">Use this address: </label>
-                <input id="address + ${address.getId()}" value="${address.getId()}" type="radio" />
+                <label for="address${address.getId()}">Use this address: </label>
+                <input id="address${address.getId()}" name="address<%=index%>" value="${address.getId()}" type="radio" />
                 <p><c:out value="${address.getStreet()}" /></p>
                 <p><c:out value="${address.getCity()}" /></p>
                 <p><c:out value="${address.getProvinceState()}" /></p>
                 <p><c:out value="${address.getPostalCode()}" /></p>
+                <%
+                    index++;
+                %>
             </c:forEach>
+            <button type="submit">Submit</button>
         </form>
     </c:when>
     <c:otherwise>
-        <form>
+        <form action="order" method="post">
             <label for="street">Street</label>
             <input id="street" name="street" type="text" />
 
@@ -62,7 +69,8 @@
 
             <label for="postalCode">Postal Code</label>
             <input id="postalCode" name="postalCode" type="text" />
-            <button>Submit</button>
+
+            <button type="submit">Submit</button>
         </form>
     </c:otherwise>
 
