@@ -14,14 +14,14 @@ import java.util.List;
 import static com.brandon.assignment2.database.MySQLConnection.getConnection;
 
 public class ShoppingCartDAOImp implements ShoppingCartDAO {
-    private final String SQL_ADD = "INSERT INTO shopping_cart (user_id, product_id, quantity) VALUES(?, ?, ?)";
+    private static final String SQL_ADD = "INSERT INTO shopping_cart (user_id, product_id, quantity) VALUES(?, ?, ?)";
 
-    private final String SQL_REMOVE = "DELETE FROM shopping_cart WHERE id = ?";
-    private final String SQL_REMOVE_All = "DELETE FROM shopping_cart WHERE user_id = ?";
+    private static final String SQL_REMOVE = "DELETE FROM shopping_cart WHERE id = ?";
+    private static final String SQL_REMOVE_All = "DELETE FROM shopping_cart WHERE user_id = ?";
 
-    private final String SQL_UPDATE = "UPDATE shopping_cart SET quantity = ? WHERE id = ?";
+    private static final String SQL_UPDATE = "UPDATE shopping_cart SET quantity = ? WHERE id = ?";
 
-    private final String SQL_SELECT =
+    private static final String SQL_SELECT =
             "SELECT shopping_cart.id, " +
                     "shopping_cart.product_id, " +
                     "shopping_cart.quantity, " +
@@ -67,7 +67,6 @@ public class ShoppingCartDAOImp implements ShoppingCartDAO {
     public void removeAll(int id) throws SQLException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-
         try {
             conn = getConnection();
             preparedStatement = conn.prepareStatement(SQL_REMOVE_All);

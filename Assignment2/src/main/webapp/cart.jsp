@@ -16,9 +16,9 @@
     <div>
 
         <h1 name="name"><c:out value="${product.getName()}"/></h1>
-        <form action="order" method="post">
-            <button name="userId" value="<c:out value="${sessionScope.user.getId()}" />" type="submit"></button>
-        </form>
+
+
+
 
 <%--        <h1><c:out value="${product.getDescription()}"/></h1>--%>
 <%--        <h1><c:out value="${product.getStock()}"/></h1>--%>
@@ -35,5 +35,6 @@
 <%--        </c:choose>--%>
     </div>
 </c:forEach>
+<button type="button"><a href="address">Order!</a></button>
 </body>
 </html>

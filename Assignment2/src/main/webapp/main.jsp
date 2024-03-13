@@ -25,7 +25,7 @@
                     <a class="nav-link active" aria-current="page" href="main.jsp">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">View Order</a>
+                    <a class="nav-link" href="view-order.jsp">View Order</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="view-cart.jsp">View Cart ()</a>

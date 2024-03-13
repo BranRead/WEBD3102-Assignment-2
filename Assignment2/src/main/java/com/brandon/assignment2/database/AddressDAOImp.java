@@ -30,6 +30,7 @@ public class AddressDAOImp implements AddressDAO {
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()) {
                 Address address = new Address();
+                address.setId(rs.getInt("id"));
                 address.setUserId(userId);
                 address.setStreet(rs.getString("street"));
                 address.setCity(rs.getString("city"));
