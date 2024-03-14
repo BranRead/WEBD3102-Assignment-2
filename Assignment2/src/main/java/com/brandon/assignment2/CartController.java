@@ -28,10 +28,7 @@ public class CartController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getSession().getAttribute("user") != null) {
             try {
-
                 addItem(request, response);
-
-
 //                if(request.getParameter("delete") != null) {
 //                    delete(request, response);
 //                }
@@ -45,16 +42,31 @@ public class CartController extends HttpServlet {
         }
     }
 
-
-
     private void addItem(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         try {
-
             User user = (User) request.getSession().getAttribute("user");
 
-            shoppingCartDAOImp.add(user.getId(), Integer.parseInt(request.getParameter("productId")), Integer.parseInt(request.getParameter("quantity")));
-//            shoppingCartDAOImp.add(1, 1, 15);
+            List<ShoppingCartItem> existingShoppingCart = shoppingCartDAOImp.selectAll(user.getId());
+
+            boolean isAlreadyInCart = false;
+            int quantity = 0;
+
+            for (ShoppingCartItem item:
+                 existingShoppingCart) {
+                if(item.getId() == Integer.parseInt(request.getParameter("productId"))) {
+                    isAlreadyInCart = true;
+                    quantity = item.getQuantityInCart();
+                }
+            }
+
+            if(isAlreadyInCart) {
+                shoppingCartDAOImp.modify(Integer.parseInt(request.getParameter("quantity")) + quantity, Integer.parseInt(request.getParameter("productId")), user.getId());
+            } else {
+                shoppingCartDAOImp.add(user.getId(), Integer.parseInt(request.getParameter("productId")), Integer.parseInt(request.getParameter("quantity")));
+            }
+
+
             request.setAttribute("id", user.getId());
             request.setAttribute("productId", Integer.parseInt(request.getParameter("productId")));
             request.setAttribute("quantity", Integer.parseInt(request.getParameter("quantity")));
@@ -66,6 +78,7 @@ public class CartController extends HttpServlet {
             shoppingCartDAOImp.add(0, 0, 0);
             throw new RuntimeException(e);
         }
+
     }
 
 //    private void delete(HttpServletRequest request, HttpServletResponse response)

@@ -24,7 +24,10 @@ public class DisplayProductsDAOImp implements DisplayProductsDAO {
     private static final String SQL_SELECT_ALL_REVIEWS =
             "SELECT product_id, comment, score FROM reviews where product_id = ?";
 
-    private Connection jdbcConnection;
+    private static final String SQL_SELECT_STOCK =
+            "SELECT stock FROM stock WHERE product_id = ?";
+
+    private static final String SQL_UPDATE_STOCK = "UPDATE stock SET stock = ? WHERE product_id = ?";
 
     @Override
     public List<Product> selectAll(){
@@ -87,5 +90,42 @@ public class DisplayProductsDAOImp implements DisplayProductsDAO {
         }
 
         return reviews;
+    }
+
+    @Override
+    public int selectStock(int productId){
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        int stock = 0;
+
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(SQL_SELECT_STOCK);
+            preparedStatement.setInt(1, productId);
+            rs = preparedStatement.executeQuery();
+            rs.next();
+            stock = rs.getInt("stock");
+        } catch (Exception exception) {
+            System.out.println("Error: " + exception.getMessage());
+        }
+        return stock;
+    }
+
+    @Override
+    public void updateStock(int productId, int stock) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(SQL_UPDATE_STOCK);
+            preparedStatement.setInt(1, stock);
+            preparedStatement.setInt(2, productId);
+            preparedStatement.executeUpdate();
+        } catch (Exception exception) {
+            System.out.println("Error: " + exception.getMessage());
+        }
     }
 }

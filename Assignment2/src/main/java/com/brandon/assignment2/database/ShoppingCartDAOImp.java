@@ -19,7 +19,7 @@ public class ShoppingCartDAOImp implements ShoppingCartDAO {
     private static final String SQL_REMOVE = "DELETE FROM shopping_cart WHERE id = ?";
     private static final String SQL_REMOVE_All = "DELETE FROM shopping_cart WHERE user_id = ?";
 
-    private static final String SQL_UPDATE = "UPDATE shopping_cart SET quantity = ? WHERE id = ?";
+    private static final String SQL_UPDATE = "UPDATE shopping_cart SET quantity = ? WHERE product_id = ? AND user_id = ?";
 
     private static final String SQL_SELECT =
             "SELECT shopping_cart.id, " +
@@ -33,6 +33,8 @@ public class ShoppingCartDAOImp implements ShoppingCartDAO {
                     "INNER JOIN products ON shopping_cart.product_id = products.id " +
                     "INNER JOIN stock ON shopping_cart.product_id = stock.product_id " +
                     "WHERE shopping_cart.user_id = ?";
+
+    private static final String SQL_SELECT_QUANTITY = "SELECT quantity from shopping_cart WHERE product_id = ? AND user_id = ?";
 
     public void add(int id, int productId, int quantity) throws SQLException {
         Connection conn = null;
@@ -77,15 +79,16 @@ public class ShoppingCartDAOImp implements ShoppingCartDAO {
         }
     }
 
-    public void modify(int quantity, int id) throws SQLException {
+    public void modify(int quantity, int product_id, int user_id) throws SQLException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
 
         try {
             conn = getConnection();
-            preparedStatement = conn.prepareStatement(SQL_ADD);
+            preparedStatement = conn.prepareStatement(SQL_UPDATE);
             preparedStatement.setInt(1, quantity);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, product_id);
+            preparedStatement.setInt(3, user_id);
             preparedStatement.executeUpdate();
         } catch (Exception exception) {
             System.out.println("Error: " + exception.getMessage());
@@ -119,19 +122,31 @@ public class ShoppingCartDAOImp implements ShoppingCartDAO {
                 shoppingCart.add(shoppingCartItem);
             }
         } catch (Exception exception) {
-            ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
-                    0,
-                    exception.getMessage(),
-                    exception.getMessage(),
-                    0,
-                    2.0f,
-                    0,
-                    0,
-                    0
-            );
-            shoppingCart.add(shoppingCartItem);
             System.out.println("Error: " + exception.getMessage());
         }
         return shoppingCart;
+    }
+
+    @Override
+    public int selectQuantity(int productId, int userId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        int quantity = 0;
+
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(SQL_SELECT_QUANTITY);
+            preparedStatement.setInt(1, productId);
+            preparedStatement.setInt(2, userId);
+            rs = preparedStatement.executeQuery();
+
+            rs.next();
+            quantity = rs.getInt("quantity");
+        } catch (Exception exception) {
+            System.out.println("Error: " + exception.getMessage());
+        }
+        return quantity;
     }
 }

@@ -24,7 +24,13 @@ public class CartViewController extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         try {
             List<ShoppingCartItem> shoppingCartItems = shoppingCartDAOImp.selectAll(user.getId());
+            float totalCost = 0;
+            for (ShoppingCartItem item:
+                 shoppingCartItems) {
+                totalCost += item.getCost() * item.getQuantityInCart();
+            }
             request.getSession().setAttribute("cart", shoppingCartItems);
+            request.setAttribute("totalCost", totalCost);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/cart.jsp");
             dispatcher.include(request, response);
             dispatcher.forward(request, response);

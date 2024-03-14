@@ -1,6 +1,6 @@
 package com.brandon.assignment2.model;
 
-public class Order {
+public class Order extends Address{
     private int id;
     private int userId;
     private boolean isShipped;

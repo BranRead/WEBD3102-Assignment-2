@@ -16,6 +16,10 @@
     <div>
         <h1><c:out value="${order.isShipped()}"/></h1>
         <h1><c:out value="${order.getTrackingNumber()}"/></h1>
+        <h1><c:out value="${order.getStreet()}"/></h1>
+        <h1><c:out value="${order.getCity()}"/></h1>
+        <h1><c:out value="${order.getProvinceState()}"/></h1>
+        <h1><c:out value="${order.getPostalCode()}"/></h1>
     </div>
 </c:forEach>
 </body>

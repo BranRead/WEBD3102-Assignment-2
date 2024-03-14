@@ -10,4 +10,6 @@ import java.util.List;
 public interface DisplayProductsDAO {
     public List<Product> selectAll() throws SQLException;
     public List<Review> selectAllReviews(int id) throws SQLException;
+    public int selectStock(int productId) throws SQLException;
+    public void updateStock(int productId, int stock) throws SQLException;
 }

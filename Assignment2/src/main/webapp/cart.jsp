@@ -12,29 +12,15 @@
     <title>Cart</title>
 </head>
 <body>
+
 <c:forEach var="product" items="${sessionScope.cart}">
     <div>
-
-        <h1 name="name"><c:out value="${product.getName()}"/></h1>
-
-
-
-
-<%--        <h1><c:out value="${product.getDescription()}"/></h1>--%>
-<%--        <h1><c:out value="${product.getStock()}"/></h1>--%>
-<%--        <h1><c:out value="${product.getCost()}"/></h1>--%>
-<%--        <form action="index.jsp" method="post"><button type="submit" name="id" value="<c:out value="${product.getId()}"/>">Reviews</button></form>--%>
-<%--        <c:choose>--%>
-<%--            <c:when test="${sessionScope.isLoggedIn == true}">--%>
-<%--                <form action="cart" method="post">--%>
-<%--                    <label for="quantity">Quantity:</label>--%>
-<%--                    <input type="number" id="quantity" name="quantity" min="1">--%>
-<%--                    <button type="submit" name="productId" value="<c:out value="${product.getId()}"/>">Add to Cart</button>--%>
-<%--                </form>--%>
-<%--            </c:when>--%>
-<%--        </c:choose>--%>
+        <h1><c:out value="${product.getName()}"/></h1>
+        <h1><c:out value="${product.getCost()}"/></h1>
+        <h1><c:out value="${product.getQuantityInCart()}"/></h1>
     </div>
 </c:forEach>
+<h1>Total cost: <c:out value="${requestScope.totalCost}" /></h1>
 <button type="button"><a href="address">Order!</a></button>
 </body>
 </html>

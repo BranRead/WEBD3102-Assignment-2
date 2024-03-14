@@ -20,7 +20,18 @@ public class OrderDAOImp implements OrderDAO {
 
     private static final String SQL_SELECT_LAST_ORDER = "SELECT * FROM orders ORDER BY ID DESC LIMIT 1";
 
-    private static final String SQL_SELECT_ALL_ORDERS = "SELECT * FROM orders WHERE user_id = ?";
+    private static final String SQL_SELECT_ALL_ORDERS =
+            "SELECT orders.is_shipped, " +
+                    "orders.id, " +
+                    "orders.tracking_number, " +
+                    "address.street, " +
+                    "address.city, " +
+                    "address.province_state, " +
+                    "address.postal_code " +
+                    "FROM orders " +
+                    "INNER JOIN address ON " +
+                    "orders.address_id = address.id " +
+                    "WHERE orders.user_id = ?";
     @Override
     public int addOrder(int user_id, int address_id) throws SQLException {
         Connection conn = null;
@@ -84,11 +95,12 @@ public class OrderDAOImp implements OrderDAO {
                     order.setShipped(true);
                 }
                 order.setTrackingNumber(rs.getString("tracking_number"));
-
+                order.setStreet(rs.getString("street"));
+                order.setCity(rs.getString("city"));
+                order.setProvinceState(rs.getString("province_state"));
+                order.setPostalCode(rs.getString("postal_code"));
                 orders.add(order);
-
             }
-
         } catch (Exception exception) {
             System.out.println("Error: " + exception.getMessage());
         }

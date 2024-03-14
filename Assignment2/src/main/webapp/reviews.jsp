@@ -12,7 +12,8 @@
     <title>Title</title>
 </head>
 <body>
-
+<%--Add name of product --%>
+<h1>Reviews for: </h1>
     <h1>Average rating: <c:out value="${sessionScope.averageRating}" /> </h1>
 
     <c:forEach var="review" items="${sessionScope.reviews}">
