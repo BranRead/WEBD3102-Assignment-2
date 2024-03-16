@@ -24,6 +24,7 @@ public class DisplayProductsDAOImp implements DisplayProductsDAO {
     private static final String SQL_SELECT_ALL_REVIEWS =
             "SELECT product_id, comment, score FROM reviews where product_id = ?";
 
+    private static final String SQL_SELECT_PRODUCT = "SELECT name FROM products WHERE id = ?";
     private static final String SQL_SELECT_STOCK =
             "SELECT stock FROM stock WHERE product_id = ?";
 
@@ -127,5 +128,26 @@ public class DisplayProductsDAOImp implements DisplayProductsDAO {
         } catch (Exception exception) {
             System.out.println("Error: " + exception.getMessage());
         }
+    }
+
+    @Override
+    public Product selectProduct(int productId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        Product product = new Product();
+
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(SQL_SELECT_PRODUCT);
+            preparedStatement.setInt(1, productId);
+            rs = preparedStatement.executeQuery();
+            rs.next();
+            product.setName(rs.getString("name"));
+        } catch (Exception exception) {
+            System.out.println("Error: " + exception.getMessage());
+        }
+        return product;
     }
 }

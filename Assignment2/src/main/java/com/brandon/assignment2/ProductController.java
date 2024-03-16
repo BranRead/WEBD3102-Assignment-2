@@ -34,8 +34,10 @@ public class ProductController extends HttpServlet {
                         reviews) {
                     averageRating += review.getScore();
                 }
+                Product product = displayProductsDAOImp.selectProduct(Integer.parseInt(request.getParameter("id")));
                 averageRating /= reviews.size();
                 request.getSession().setAttribute("reviews", reviews);
+                request.getSession().setAttribute("product", product);
                 request.getSession().setAttribute("averageRating", averageRating);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/reviews.jsp");
                 dispatcher.include(request, response);

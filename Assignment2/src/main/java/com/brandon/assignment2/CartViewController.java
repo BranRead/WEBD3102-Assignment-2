@@ -30,7 +30,7 @@ public class CartViewController extends HttpServlet {
                 totalCost += item.getCost() * item.getQuantityInCart();
             }
             request.getSession().setAttribute("cart", shoppingCartItems);
-            request.setAttribute("totalCost", totalCost);
+            request.getSession().setAttribute("totalCost", totalCost);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/cart.jsp");
             dispatcher.include(request, response);
             dispatcher.forward(request, response);

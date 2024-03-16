@@ -63,7 +63,7 @@ public class OrderController extends HttpServlet {
                 address.setProvinceState(request.getParameter("province"));
                 address.setPostalCode(request.getParameter("postalCode"));
                 addressDAOImp.add(address);
-                addressId = addressDAOImp.select(user.getId()).get(0).getId();
+                addressId = addressDAOImp.select(user.getId()).get(0).getAddressId();
             }
             int orderID = orderDAOImp.addOrder(user.getId(), addressId);
 //            int orderID = orderDAOImp.addOrder(1, 1);

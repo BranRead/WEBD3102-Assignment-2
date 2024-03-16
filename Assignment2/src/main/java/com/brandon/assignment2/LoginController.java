@@ -41,6 +41,14 @@ public class LoginController extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("isLoggedIn", true);
+            session.setAttribute("errorLoggingIn", false);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/main.jsp");
+            dispatcher.include(request, response);
+            dispatcher.forward(request, response);
+            response.sendRedirect("/main.jsp");
+        } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("errorLoggingIn", true);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/main.jsp");
             dispatcher.include(request, response);
             dispatcher.forward(request, response);

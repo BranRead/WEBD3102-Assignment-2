@@ -12,4 +12,5 @@ public interface DisplayProductsDAO {
     public List<Review> selectAllReviews(int id) throws SQLException;
     public int selectStock(int productId) throws SQLException;
     public void updateStock(int productId, int stock) throws SQLException;
+    public Product selectProduct(int productId) throws SQLException;
 }

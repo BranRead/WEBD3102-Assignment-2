@@ -1,15 +1,15 @@
 package com.brandon.assignment2.model;
 
 public class Address {
-    private int id;
+    private int addressId;
     private int userId;
     private String street;
     private String city;
     private String provinceState;
     private String postalCode;
 
-    public Address(int id, int userId, String street, String city, String province_state, String postalCode) {
-        this.id = id;
+    public Address(int addressId, int userId, String street, String city, String province_state, String postalCode) {
+        this.addressId = addressId;
         this.userId = userId;
         this.street = street;
         this.city = city;
@@ -19,12 +19,12 @@ public class Address {
 
     public Address(){};
 
-    public int getId() {
-        return id;
+    public int getAddressId() {
+        return addressId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
 
     public int getUserId() {

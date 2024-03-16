@@ -89,6 +89,7 @@ public class OrderDAOImp implements OrderDAO {
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
                 Order order = new Order();
+                order.setId(rs.getInt("id"));
                 if(rs.getByte("is_shipped") == 0){
                     order.setShipped(false);
                 } else if (rs.getByte("is_shipped") == 1) {
